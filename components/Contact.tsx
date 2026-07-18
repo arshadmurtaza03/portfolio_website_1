@@ -185,9 +185,18 @@ export default function Contact() {
               )}
 
               {status === 'error' && (
-                <div className="flex items-center gap-3 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-400 text-sm">
-                  <AlertCircle className="w-5 h-5 shrink-0" />
-                  <span>{errorMessage}</span>
+                <div className="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-300 text-sm space-y-2">
+                  <div className="flex items-center gap-3">
+                    <AlertCircle className="w-5 h-5 text-rose-400 shrink-0" />
+                    <span>{errorMessage}</span>
+                  </div>
+                  <a
+                    href={`mailto:${personalDetails.email}?subject=${encodeURIComponent(formData.subject || 'Portfolio Inquiry')}&body=${encodeURIComponent(`Name: ${formData.name}\nEmail: ${formData.email}\n\n${formData.message}`)}`}
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-xs font-semibold text-rose-200 border border-rose-500/40 transition-colors mt-1"
+                  >
+                    <Mail className="w-3.5 h-3.5" />
+                    Send via Email Client directly
+                  </a>
                 </div>
               )}
 
