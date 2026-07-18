@@ -19,18 +19,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.venv/
-venv/
-ENV/
-env/
-.python-version
-main.py
-
 # System & IDE
 .DS_Store
 *.pem
