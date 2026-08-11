@@ -11,7 +11,7 @@ const inter = Inter({
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
-  variable: '--font-jetbrains-mono)',
+  variable: '--font-jetbrains-mono',
   display: 'swap',
 });
 
