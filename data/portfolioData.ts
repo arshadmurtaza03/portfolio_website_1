@@ -1,9 +1,16 @@
+// Portfolio Data - ALL exports needed by components
+
 export const portfolioData = {
   personalDetails: {
     name: 'Arshad Murtaza',
     title: 'Full-Stack Developer | AI Engineer',
     email: 'arshadmurtaza2016@gmail.com',
     location: 'Delhi, India',
+    phone: '+91-XXXXXXXXXX',
+    linkedin: 'https://linkedin.com/in/arshadmurtaza03',
+    github: 'https://github.com/arshadmurtaza03',
+    aboutSummary: 'Self-taught developer passionate about building full-stack web applications and AI solutions.',
+    careerObjective: 'To work as an AI Engineer and build innovative solutions using cutting-edge technologies.',
   },
   skillCategories: [
     {
@@ -56,6 +63,29 @@ export const portfolioData = {
       ],
     },
   ],
+  education: [
+    {
+      degree: 'Bachelor of Technology',
+      field: 'Computer Science',
+      institution: 'University Name',
+      year: '2020 - 2024',
+      gpa: '8.5/10',
+    },
+  ],
+  certifications: [
+    {
+      name: 'AWS Certified Developer',
+      issuer: 'Amazon Web Services',
+      date: '2023',
+      url: 'https://aws.amazon.com',
+    },
+    {
+      name: 'Google Cloud Professional',
+      issuer: 'Google Cloud',
+      date: '2023',
+      url: 'https://cloud.google.com',
+    },
+  ],
   social: {
     github: 'https://github.com/arshadmurtaza03',
     linkedin: 'https://linkedin.com/in/arshadmurtaza03',
@@ -63,9 +93,12 @@ export const portfolioData = {
   },
 }
 
-// Also export individual parts for backwards compatibility
+// Export everything individually for component imports
 export const personalDetails = portfolioData.personalDetails
 export const skillCategories = portfolioData.skillCategories
 export const projects = portfolioData.projects
 export const experience = portfolioData.experience
+export const education = portfolioData.education
+export const educationItems = portfolioData.education
+export const certifications = portfolioData.certifications
 export const social = portfolioData.social
