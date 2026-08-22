@@ -8,24 +8,19 @@ This project containerizes my Next.js portfolio website using Docker with a mult
 portfolio_website_1/
 ├── Dockerfile              # Multi-stage Docker build
 ├── package.json           # Node.js dependencies
+├── package-lock.json      # Lockfile for reproducible builds
 ├── app/
 │   ├── page.tsx          # Main portfolio page
 │   ├── layout.tsx        # Root layout
 │   └── globals.css       # Global styles
 ├── components/            # React components
-│   ├── Navbar.tsx
-│   ├── Hero.tsx
 │   ├── About.tsx
-│   ├── Skills.tsx
-│   ├── Projects.tsx
-│   ├── Experience.tsx
-│   ├── Education.tsx
 │   ├── Certifications.tsx
-│   ├── GithubStats.tsx
 │   ├── Contact.tsx
-│   └── Footer.tsx
+│   ├── Education.tsx
+│   └── ... (other components)
 └── data/
-    └── portfolioData.ts   # Portfolio content
+    └── portfolioData.ts   # Portfolio content data
 ```
 
 ---
@@ -37,13 +32,19 @@ portfolio_website_1/
 ```dockerfile
 FROM node:20-alpine AS builder
 WORKDIR /app
-COPY package.json ./
-RUN npm install
+COPY package.json package-lock.json ./
+RUN npm ci
 COPY . .
 RUN npm run build
 ```
 
-**Explanation:** Uses Node.js 20 Alpine to build the Next.js app. Creates next.config.mjs dynamically with `output: 'export'` for static export.
+**Explanation:**
+- `FROM node:20-alpine` - Uses Node.js 20 with Alpine Linux
+- `WORKDIR /app` - Sets working directory
+- `COPY package.json package-lock.json ./` - Copies package files for caching
+- `RUN npm ci` - Installs dependencies from lockfile (reproducible)
+- `COPY . .` - Copies all source files
+- `RUN npm run build` - Builds Next.js with static export
 
 ### Stage 2: Runtime (Nginx)
 
@@ -54,7 +55,11 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 ```
 
-**Explanation:** Uses Nginx Alpine to serve the static files from /app/out.
+**Explanation:**
+- `FROM nginx:alpine` - Uses lightweight Nginx server
+- `COPY --from=builder /app/out` - Copies static files from build stage
+- `EXPOSE 80` - Documents port 80
+- `CMD [...]` - Starts Nginx in foreground mode
 
 ---
 
@@ -79,8 +84,8 @@ docker run -d --name arshad-portfolio-container -p 8080:80 arshad-portfolio:1.0
 
 **Explanation:**
 - `-d` - Detached mode (background)
-- `--name` - Container name
-- `-p 8080:80` - Map port 8080 to container port 80
+- `--name arshad-portfolio-container` - Container name
+- `-p 8080:80` - Map host port 8080 to container port 80
 
 ### Verify Container is Running
 
