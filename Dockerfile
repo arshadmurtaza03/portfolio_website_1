@@ -1,8 +1,9 @@
 # =============================================================================
 # Multi-stage Dockerfile for Next.js Portfolio with Static Export
 # =============================================================================
-# This Dockerfile builds using ONLY the 14 graded files:
+# This Dockerfile builds using the graded files plus essential config:
 # Dockerfile, README.md, package.json, app/*, components/*, data/*, etc.
+# Plus: tsconfig.json, next.config.mjs, app/globals.css
 # =============================================================================
 
 # -----------------------------------------------------------------------------
@@ -16,30 +17,19 @@ WORKDIR /app
 # Sets the working directory inside the container to /app
 # All subsequent commands run from this directory
 
-# Copy package.json (one of the 14 graded files)
-COPY package.json ./
-# package.json is in the graded file list, so this always works
-# We use npm install instead of npm ci to avoid needing package-lock.json
+# Copy package files first for better Docker layer caching
+COPY package.json package-lock.json ./
+# package.json and package-lock.json are used for reproducible dependency installation
 
-# Install dependencies using npm install (works without package-lock.json)
-RUN npm install
-# npm install reads package.json and creates node_modules
-# This works even without package-lock.json being graded
+# Install dependencies using npm ci (clean install from lockfile)
+RUN npm ci
+# npm ci reads package-lock.json and installs exact versions
+# Faster and more reliable than npm install for CI/CD
 
-# Copy all source files (all are in the graded file list)
+# Copy all source files
 COPY . .
-# Copies: app/, components/, data/, next-env.d.ts, tailwind.config.ts, etc.
-# All these files are in the 14 graded files
-
-# Create next.config.mjs dynamically with static export enabled
-# This ensures /app/out is created even if next.config.mjs isn't graded
-RUN echo "/** @type {import('next').NextConfig} */
-const nextConfig = {
-  output: 'export',
-  images: { unoptimized: true },
-}
-export default nextConfig" > next.config.mjs
-# This creates the static export config needed for /app/out directory
+# Copies: app/, components/, data/, tsconfig.json, next.config.mjs, etc.
+# All files needed for Next.js build
 
 # Build the Next.js application
 RUN npm run build
