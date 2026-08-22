@@ -1,20 +1,19 @@
 # =============================================================================
 # Multi-stage Dockerfile for Next.js Portfolio with Static Export
 # =============================================================================
-# This Dockerfile builds using ONLY the 14 graded files
-# =============================================================================
 
 # -----------------------------------------------------------------------------
 # STAGE 1: BUILDER - Build the Next.js application
 # -----------------------------------------------------------------------------
 FROM node:20-alpine AS builder
+
 WORKDIR /app
 
-# Copy package.json only (graded file)
-COPY package.json ./
+# Copy package files for reproducible builds
+COPY package.json package-lock.json ./
 
-# Install dependencies using npm install (works without package-lock.json)
-RUN npm install
+# Install dependencies from lockfile (faster and more reliable)
+RUN npm ci
 
 # Copy all source files
 COPY . .
