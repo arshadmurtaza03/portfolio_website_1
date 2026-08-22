@@ -32,6 +32,79 @@ portfolio_website_1/
 
 ---
 
+## 🎛️ Container Management Commands (Stop, Start, Restart)
+
+### Stop the Container
+
+```bash
+docker stop arshad-portfolio-container
+```
+
+**Explanation:** Gracefully stops a running container by sending SIGTERM signal. Waits for container to finish current tasks before stopping.
+
+**Expected Output:**
+```
+arshad-portfolio-container
+```
+
+### Start a Stopped Container
+
+```bash
+docker start arshad-portfolio-container
+```
+
+**Explanation:** Starts a previously stopped container (does not create a new one). Preserves container state and data.
+
+**Expected Output:**
+```
+arshad-portfolio-container
+```
+
+### Restart the Container
+
+```bash
+docker restart arshad-portfolio-container
+```
+
+**Explanation:** Stops and then starts the container in one command. Useful for applying configuration changes or recovering from errors.
+
+**Expected Output:**
+```
+arshad-portfolio-container
+```
+
+### List All Containers (Including Stopped)
+
+```bash
+docker ps -a
+```
+
+**Explanation:** Lists all containers, not just running ones. Shows exited/stopped containers with their status (e.g., "Exited (0) 2 minutes ago").
+
+**Expected Output:**
+```
+CONTAINER ID   IMAGE                      COMMAND                  STATUS                     PORTS     NAMES
+a1b2c3d4e5f6   arshad-portfolio:1.0       "nginx -g 'daemon of…"   Exited (0) 2 minutes ago              arshad-portfolio-container
+```
+
+### Remove a Container
+
+```bash
+docker rm -f arshad-portfolio-container
+```
+
+**Explanation:**
+- `docker rm` - Removes one or more containers
+- `-f` - Force removal (stops container if running, then removes)
+- Use this to completely delete a container
+
+**Expected Output:**
+```
+arshad-portfolio-container
+```
+
+---
+
 ## 🐳 Dockerfile Explanation
 
 ### Stage 1: Builder (Node.js)
@@ -173,58 +246,14 @@ http://localhost:8080
 
 ---
 
-## 🎛️ Container Management Commands
-
-### Stop the Container
-
-```bash
-docker stop arshad-portfolio-container
-```
-**Explanation:** Gracefully stops a running container by sending SIGTERM signal. Waits for container to finish current tasks before stopping.
-
-### Start a Stopped Container
-
-```bash
-docker start arshad-portfolio-container
-```
-**Explanation:** Starts a previously stopped container (does not create a new one). Preserves container state and data.
-
-### Restart the Container
-
-```bash
-docker restart arshad-portfolio-container
-```
-**Explanation:** Stops and then starts the container in one command. Useful for applying configuration changes or recovering from errors.
-
-### List All Containers (Including Stopped)
-
-```bash
-docker ps -a
-```
-**Explanation:** Lists all containers, not just running ones. Shows exited/stopped containers with their status (e.g., "Exited (0) 2 minutes ago").
-
-### Remove a Container
-
-```bash
-docker rm -f arshad-portfolio-container
-```
-**Explanation:**
-- `docker rm` - Removes one or more containers
-- `-f` - Force removal (stops container if running, then removes)
-- Use this to completely delete a container
-
-### List Docker Images
-
-```bash
-docker images
-```
-**Explanation:** Lists all Docker images on your system with their repository name, tag, image ID, size, and creation date.
+## 📋 Additional Docker Commands
 
 ### View Container Logs
 
 ```bash
 docker logs arshad-portfolio-container
 ```
+
 **Explanation:** Shows the stdout/stderr logs from the container. Useful for debugging Nginx startup issues or runtime errors.
 
 ### Execute Commands Inside Running Container
@@ -232,13 +261,23 @@ docker logs arshad-portfolio-container
 ```bash
 docker exec -it arshad-portfolio-container sh
 ```
+
 **Explanation:** Opens an interactive shell session inside the running container. `-it` combines interactive mode and TTY allocation.
+
+### List Docker Images
+
+```bash
+docker images
+```
+
+**Explanation:** Lists all Docker images on your system with their repository name, tag, image ID, size, and creation date.
 
 ### Remove a Docker Image
 
 ```bash
 docker rmi arshad-portfolio:1.0
 ```
+
 **Explanation:** Removes a Docker image from your system. Cannot remove images that are in use by running containers.
 
 ---
@@ -353,6 +392,7 @@ docker rmi arshad-portfolio:1.0
 - Static export ensures fast loading and simple deployment
 - Nginx configuration handles Next.js routing and enables compression
 - All Docker commands are explained in detail above
+- **Required files present:** Dockerfile, README.md, package.json, package-lock.json, next.config.mjs, nginx.conf, .dockerignore
 
 ---
 
