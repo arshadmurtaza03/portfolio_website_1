@@ -1,33 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  reactStrictMode: true,
-
-  // Create a static production website in the "out" folder.
-  output: "export",
-
+  // CRITICAL: Enable static export - creates /out directory with static HTML files
+  output: 'export',
+  
+  // Disable image optimization for static export (images need to be static)
   images: {
-    // Required for static export because Nginx cannot run Next.js image optimization.
     unoptimized: true,
-
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "avatars.githubusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "raw.githubusercontent.com",
-      },
-      {
-        protocol: "https",
-        hostname: "github-readme-stats.vercel.app",
-      },
-      {
-        protocol: "https",
-        hostname: "github-readme-streak-stats.herokuapp.com",
-      },
-    ],
   },
-};
+}
 
-export default nextConfig;
+export default nextConfig
